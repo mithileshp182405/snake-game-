@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>MK Snake Game</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="game-shell">
+      <div class="mobile-save-box">
+        <label for="mobileInput">Mobile Number</label>
+        <div class="auth-row" id="authRow">
+          <input id="mobileInput" type="tel" inputmode="numeric" placeholder="Enter mobile number" maxlength="10" />
+          <button id="saveProgressBtn" class="save-btn" type="button">Login</button>
+        </div>
+        <button id="logoutBtn" class="logout-btn hidden" type="button">Logout</button>
+      </div>
+
+      <div class="hud">
+        <div class="hud-card">
+          <span>LEVEL</span>
+          <strong id="levelLabel">1</strong>
+        </div>
+        <div class="hud-card">
+          <span>TARGET</span>
+          <strong id="targetLabel">1</strong>
+        </div>
+        <div class="hud-card">
+          <span>LIVES</span>
+          <strong id="livesLabel">♥♥♥♥♥</strong>
+        </div>
+      </div>
+
+      <canvas id="gameCanvas" width="620" height="620" aria-label="Snake game board"></canvas>
+
+      <div class="status-bar">
+        <span id="statusText">READY</span>
+      </div>
+
+      <div class="control-panel">
+        <div class="joystick-wrap" aria-label="Game joystick">
+          <div class="joystick-shell" id="joystickArea">
+            <div class="joystick-knob" id="joystickKnob"></div>
+          </div>
+        </div>
+
+        <div class="pad-grid" aria-label="Direction controls">
+          <button class="dir-btn up" data-dir="up">▲</button>
+          <div class="middle-row">
+            <button class="dir-btn left" data-dir="left">◀</button>
+            <button class="dir-btn down" data-dir="down">▼</button>
+            <button class="dir-btn right" data-dir="right">▶</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="game.js"></script>
+  </body>
+</html>
