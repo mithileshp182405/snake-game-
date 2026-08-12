@@ -1,0 +1,367 @@
+:root {
+  --bg: #0a0c15;
+  --panel: rgba(10, 12, 21, 0.95);
+  --panel-2: rgba(8, 10, 18, 0.98);
+  --line: rgba(148, 163, 184, 0.35);
+  --snake: #00ff88;
+  --snake-head: #00ff88;
+  --food: #ff0055;
+  --poison: #a855f7;
+  --enemy: #ffaa00;
+  --text: #f0f9ff;
+  --muted: #a0aec0;
+  --warning: #ff6b6b;
+  --gold: #ffff00;
+  --cyan: #00ffff;
+  --green-glow: rgba(0, 255, 136, 0.6);
+  --blue-glow: rgba(0, 255, 255, 0.5);
+  --pink-glow: rgba(255, 0, 85, 0.4);
+  --neon-shadow: 0 0 40px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background:
+    radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.15), transparent 35%),
+    radial-gradient(circle at 80% 20%, rgba(0, 255, 255, 0.12), transparent 32%),
+    radial-gradient(circle at top, rgba(255, 0, 85, 0.1), transparent 28%),
+    linear-gradient(180deg, #0a0c15 0%, #0f1123 50%, #0a0c15 100%);
+  font-family: 'Courier New', monospace;
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.game-shell {
+  width: min(92vw, 1100px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  border-radius: 32px;
+  background: rgba(10, 12, 21, 0.85);
+  border: 2px solid rgba(0, 255, 136, 0.25);
+  box-shadow:
+    0 0 0 1px rgba(0, 255, 255, 0.15),
+    0 0 60px rgba(0, 255, 136, 0.15),
+    0 30px 80px rgba(0, 0, 0, 0.95),
+    inset 0 0 40px rgba(0, 255, 136, 0.08);
+  backdrop-filter: blur(18px);
+  animation: shimmer 8s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(0, 255, 136, 0.15), 0 0 60px rgba(0, 255, 136, 0.15), 0 30px 80px rgba(0, 0, 0, 0.95), inset 0 0 40px rgba(0, 255, 136, 0.08); }
+  50% { box-shadow: 0 0 0 1px rgba(0, 255, 255, 0.25), 0 0 80px rgba(0, 255, 255, 0.2), 0 30px 80px rgba(0, 0, 0, 0.95), inset 0 0 40px rgba(0, 255, 136, 0.1); }
+}
+
+.mobile-save-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: linear-gradient(180deg, rgba(10, 12, 21, 0.98), rgba(8, 10, 18, 0.9));
+  border: 1.5px solid rgba(0, 255, 136, 0.2);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: inset 0 1px 0 rgba(0, 255, 136, 0.1), 0 0 30px rgba(0, 255, 136, 0.1), 0 16px 32px rgba(0, 0, 0, 0.6);
+}
+
+.mobile-save-box label {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.auth-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.mobile-save-box input {
+  width: 100%;
+  background: rgba(10, 12, 21, 0.95);
+  border: 1.5px solid rgba(0, 255, 136, 0.25);
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: var(--text);
+  font-size: 1rem;
+  font-family: 'Courier New', monospace;
+  outline: none;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 255, 136, 0.05);
+  transition: all 0.3s ease;
+}
+
+.mobile-save-box input:focus {
+  border-color: rgba(0, 255, 136, 0.6);
+  box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.2), inset 0 0 20px rgba(0, 255, 136, 0.08), 0 0 30px rgba(0, 255, 136, 0.15);
+}
+
+.save-btn,
+.logout-btn {
+  border: 2px solid;
+  border-radius: 12px;
+  color: white;
+  padding: 14px 22px;
+  font-weight: 900;
+  cursor: pointer;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-family: 'Courier New', monospace;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 10px currentColor;
+}
+
+.save-btn:hover,
+.logout-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.2);
+}
+
+.save-btn:active,
+.logout-btn:active {
+  transform: translateY(0);
+}
+
+.save-btn {
+  background: linear-gradient(135deg, #00ff88, #00cc66 60%, #00ffaa);
+  border-color: rgba(0, 255, 136, 0.6);
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.5), 0 0 40px rgba(0, 255, 136, 0.3), 0 12px 20px rgba(0, 0, 0, 0.4);
+  color: #000;
+}
+
+.save-btn:hover {
+  box-shadow: 0 0 30px rgba(0, 255, 136, 0.8), 0 0 60px rgba(0, 255, 136, 0.5), 0 12px 20px rgba(0, 0, 0, 0.4);
+}
+
+.logout-btn {
+  background: linear-gradient(135deg, #ff0055, #ff3377 60%, #ff0088);
+  border-color: rgba(255, 0, 85, 0.6);
+  box-shadow: 0 0 20px rgba(255, 0, 85, 0.5), 0 0 40px rgba(255, 0, 85, 0.3), 0 12px 20px rgba(0, 0, 0, 0.4);
+}
+
+.logout-btn:hover {
+  box-shadow: 0 0 30px rgba(255, 0, 85, 0.8), 0 0 60px rgba(255, 0, 85, 0.5), 0 12px 20px rgba(0, 0, 0, 0.4);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.hud {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.hud-card {
+  background: linear-gradient(180deg, rgba(10, 12, 21, 0.98), rgba(8, 10, 18, 0.85));
+  border: 1.5px solid rgba(0, 255, 136, 0.22);
+  border-radius: 16px;
+  padding: 16px 12px;
+  text-align: center;
+  box-shadow: inset 0 1px 0 rgba(0, 255, 136, 0.1), 0 0 20px rgba(0, 255, 136, 0.08), 0 12px 24px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.hud-card:hover {
+  border-color: rgba(0, 255, 136, 0.4);
+  box-shadow: inset 0 1px 0 rgba(0, 255, 136, 0.15), 0 0 30px rgba(0, 255, 136, 0.15), 0 12px 24px rgba(0, 0, 0, 0.5);
+}
+
+.hud-card span {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: rgba(0, 255, 136, 0.7);
+  text-transform: uppercase;
+  font-family: 'Courier New', monospace;
+}
+
+.hud-card strong {
+  display: block;
+  margin-top: 10px;
+  font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+  color: #00ff88;
+  text-shadow: 0 0 20px rgba(0, 255, 136, 0.6), 0 0 40px rgba(0, 255, 136, 0.3);
+  font-weight: 900;
+  font-family: 'Courier New', monospace;
+}
+
+canvas {
+  width: min(92vw, 980px);
+  height: auto;
+  background: linear-gradient(180deg, #0a0c15 0%, #0f1123 100%);
+  border: 3px solid rgba(0, 255, 136, 0.35);
+  border-radius: 24px;
+  box-shadow:
+    0 0 50px rgba(0, 255, 136, 0.3),
+    0 0 0 1px rgba(0, 255, 136, 0.2),
+    0 0 80px rgba(0, 255, 136, 0.15),
+    0 20px 50px rgba(0, 0, 0, 0.8),
+    inset 0 0 30px rgba(0, 255, 136, 0.05);
+  touch-action: none;
+  transition: box-shadow 0.3s ease;
+}
+
+.status-bar {
+  width: 100%;
+  background: linear-gradient(180deg, rgba(10, 12, 21, 0.98), rgba(8, 10, 18, 0.9));
+  border: 1.5px solid rgba(255, 0, 85, 0.25);
+  border-radius: 14px;
+  padding: 14px 18px;
+  text-align: center;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 0, 85, 0.9);
+  font-family: 'Courier New', monospace;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 0, 85, 0.15), 0 12px 28px rgba(0, 0, 0, 0.6);
+  text-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
+}
+
+.control-panel {
+  width: min(100%, 520px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 22px;
+  padding: 10px 6px 0;
+}
+
+.joystick-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.joystick-shell {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(0, 255, 255, 0.25), rgba(10, 12, 21, 0.96) 50%);
+  border: 2.5px solid rgba(0, 255, 255, 0.4);
+  box-shadow: inset 0 0 30px rgba(0, 255, 255, 0.1), 0 0 40px rgba(0, 255, 255, 0.3), 0 16px 32px rgba(0, 0, 0, 0.6);
+  touch-action: none;
+  transition: all 0.3s ease;
+}
+
+.joystick-knob {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #00ffff, #0099ff 60%, #0066ff);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.8), 0 0 60px rgba(0, 255, 255, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.3);
+  transition: all 0.1s ease;
+}
+
+.pad-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.middle-row {
+  display: flex;
+  gap: 10px;
+}
+
+.dir-btn {
+  width: 84px;
+  height: 84px;
+  border: 2px solid rgba(255, 170, 0, 0.4);
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255, 170, 0, 0.15), rgba(10, 12, 21, 0.9) 60%, rgba(10, 12, 21, 0.95));
+  color: #ffaa00;
+  font-size: 2.1rem;
+  font-weight: 900;
+  box-shadow: 0 0 25px rgba(255, 170, 0, 0.2), 0 12px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.dir-btn:hover {
+  border-color: rgba(255, 170, 0, 0.7);
+  box-shadow: 0 0 35px rgba(255, 170, 0, 0.4), 0 0 60px rgba(255, 170, 0, 0.2), 0 12px 20px rgba(0, 0, 0, 0.4);
+}
+
+.dir-btn:active {
+  transform: scale(0.96);
+  box-shadow: 0 0 20px rgba(255, 170, 0, 0.3), 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .game-shell {
+    padding: 14px;
+    border-radius: 22px;
+  }
+
+  .mobile-save-box {
+    padding: 12px;
+  }
+
+  .auth-row {
+    flex-direction: column;
+  }
+
+  .save-btn,
+  .logout-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hud {
+    gap: 8px;
+  }
+
+  .hud-card {
+    padding: 10px 6px;
+  }
+
+  .hud-card strong {
+    font-size: 1rem;
+  }
+
+  .control-panel {
+    width: 100%;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .joystick-shell {
+    width: 118px;
+    height: 118px;
+  }
+
+  .dir-btn {
+    width: 68px;
+    height: 68px;
+    font-size: 1.8rem;
+  }
+}
+
