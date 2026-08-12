@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>MK Snake Game</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <div class="hud">
+        <div class="hud-block">
+          <span class="label">Level</span>
+          <strong id="levelLabel">1</strong>
+        </div>
+        <div class="hud-block">
+          <span class="label">Target</span>
+          <strong id="targetLabel">1</strong>
+        </div>
+        <div class="hud-block">
+          <span class="label">Lives</span>
+          <strong id="livesLabel">♥♥♥♥♥</strong>
+        </div>
+      </div>
+
+      <canvas id="gameCanvas" width="620" height="620" aria-label="Snake game board"></canvas>
+
+      <div class="status-panel">
+        <span id="statusText">Ready</span>
+      </div>
+
+      <div class="controls-wrap">
+        <div class="joystick-area" id="joystickArea" aria-label="Game joystick">
+          <div class="joystick-base">
+            <div class="joystick-knob" id="joystickKnob"></div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button class="control-btn up" data-dir="up">▲</button>
+          <div class="middle-row">
+            <button class="control-btn left" data-dir="left">◀</button>
+            <button class="control-btn down" data-dir="down">▼</button>
+            <button class="control-btn right" data-dir="right">▶</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="game.js"></script>
+  </body>
+</html>
